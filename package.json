@@ -1,0 +1,19 @@
+{
+  "name": "tablemerger",
+  "version": "1.0.0",
+  "description": "A little web tool to help people translate CSVs to FASTA and vice-versa.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CDCgov/TableMerger.git"
+  },
+  "author": "Tony Boyles <nsp3@cdc.gov>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/CDCgov/TableMerger/issues"
+  },
+  "homepage": "https://github.com/CDCgov/TableMerger#csv2fasta"
+}

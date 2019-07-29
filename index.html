@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Tony Boyles <nsp3@cdc.gov>">
+    <title>TableMerger</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="custom.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="container" style="max-width: 800px;">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">TableMerger</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a href="#" class="nav-link btn btn-outline-secondary btn-sm" role="button" data-toggle="modal" data-target="#about-modal">about</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link btn btn-outline-secondary btn-sm" role="button">help</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <main role="main" class="col">
+        <div class="row">
+
+          <div class="col card">
+            <div class="card-body">
+              <div class="mb-2">Left File</div>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="left-file">
+                <label class="custom-file-label" for="left-file">Choose file</label>
+              </div>
+              <div id="left-file-config" class="card">
+                <div id="left-file-config-panel" data-parent="#left-file-config">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="left-id-col">ID Column</label>
+                      <select id="left-id-col" class="form-control"></select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-1"></div>
+
+          <div class="col card">
+            <div class="card-body">
+              <div class="mb-2">Right File</div>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="right-file">
+                <label class="custom-file-label" for="right-file">Choose file</label>
+              </div>
+              <div id="right-file-config" class="card">
+                <div id="right-file-config-panel" data-parent="#right-file-config">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="right-id-col">ID Column</label>
+                      <select id="right-id-col" class="form-control"></select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div id="output-controls" class="row">
+          <div class="col-12 text-center">
+            <img src="combineArrow.png">
+          </div>
+          <div class="col-6 offset-3 card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-8 pr-0">
+                  <input id="download-filename" class="form-control">
+                </div>
+                <div class="col-4 pl-0">
+                  <select id="download-format" class="form-control">
+                    <option>csv</option>
+                    <option>xlsx</option>
+                  </select>
+                </div>
+                <div class="accordion mb-3" id="output-file-config">
+                  <div class="card">
+                    <div class="card-header p-0" id="output-file-config-heading">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#output-file-config-panel" aria-expanded="true" aria-controls="output-file-config-panel">Advanced</button>
+                      </h5>
+                    </div>
+                    <div id="output-file-config-panel" class="collapse" aria-labelledby="output-file-config-heading" data-parent="#output-file-config">
+                      <div class="card-body">
+                        <div class="form-group">
+                          <select id="output-delimiter" class="form-control">
+                            <option value=",">Comma</option>
+                            <option value=" ">Tab</option>
+                            <option value=";">Semicolon</option>
+                            <option value="|">Pipe</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <button type="button" id="download" class="btn btn-primary w-100" disabled>Download</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="about-modal-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="about-modal-label">About TableMerger</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            TableMerger is a simple tool to merge multiple tables into a single table. It works fluently with CSVs and Excel sheets, and any combination thereof.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Got it!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.3/papaparse.min.js"></script>
+    <script src="https://unpkg.com/file-saver@2.0.2/dist/FileSaver.min.js"></script>
+    <script>
+      $(function(){
+        $('#left-file').on('change', function(e){
+          var leftfile = this.files[0];
+          $('label[for="left-file"]').text(leftfile.name);
+          $('#left-file-config').slideDown();
+          var fileType = leftfile.name.split('.').pop().toLowerCase();
+          if(fileType === 'csv'){
+            Papa.parse(leftfile, {
+              header: true,
+              preview: 1,
+              complete: function(result){
+                $('#left-id-col').html(result.meta.fields.map(f => `<option>${f}</option>`).join('\n')).prop('disabled', false);
+              }
+            });
+          } else { //i.e., is an XLSX File
+            
+          }
+          revealJoinConfig();
+        });
+
+        $('#right-file').on('change', function(e){
+          var rightfile = this.files[0];
+          $('label[for="right-file"]').text(rightfile.name);
+          $('#right-file-config').slideDown();
+          var fileType = rightfile.name.split('.').pop().toLowerCase();
+          if(fileType === 'csv'){
+            Papa.parse(rightfile, {
+              header: true,
+              preview: 1,
+              complete: function(result){
+                $('#right-id-col').html(result.meta.fields.map(f => `<option>${f}</option>`).join('\n')).prop('disabled', false);
+              }
+            });
+          } else { //i.e., is an XLSX File
+            
+          }
+          revealJoinConfig();
+        });
+
+        function revealJoinConfig(){
+          if($('#left-file')[0].files.length && $('#right-file')[0].files.length){
+            if($('#left-id-col').val() != "" && $('#right-id-col').val() != ""){
+              $('#output-controls').slideDown();
+            }
+          }
+        }
+
+        function processLeftFile(){
+          return new Promise((resolve, reject) => {
+            var leftfile  = $('#left-file' ).get(0).files[0];
+            var leftfileType = leftfile.name.split('.').pop().toLowerCase();
+            if(leftfileType === 'csv'){
+              Papa.parse(leftfile, {
+                header: true,
+                complete: function(result){
+                  resolve(result.data);
+                }
+              });
+            } else { //i.e., is an XLSX File
+              
+            }
+          });
+        }
+
+        function processRightFile(){
+          return new Promise((resolve, reject) => {
+            var rightfile = $('#right-file').get(0).files[0];
+            var rightfileType = rightfile.name.split('.').pop().toLowerCase();
+            if(rightfileType === 'csv'){
+              Papa.parse(rightfile, {
+                header: true,
+                complete: function(result){
+                  resolve(result.data);
+                }
+              });
+            } else { //i.e., is an XLSX File
+              
+            }
+          });
+        }
+        
+        $('#download-filename').on('input', function(){
+          if(this.value == ''){
+            $('#download').attr('disabled', true);
+          } else {
+            $('#download').attr('disabled', false);
+          }
+        });
+
+        async function download(){
+          var leftData = await processLeftFile();
+          var rightData = await processRightFile();
+          var merged = leftData;
+          var leftkey = $('#left-id-col').val();
+          var rightkey = $('#right-id-col').val();
+          rightData.forEach(rightrow => {
+            let match = merged.find(leftrow => leftrow[leftkey] == rightrow[rightkey]);
+            if(match){
+              Object.assign(match, rightrow);
+            } else {
+              merged.push(rightrow);
+            }
+          });
+          saveAs(new Blob([Papa.unparse(merged)], {type: "text/plain;charset=utf-8"}), $('#download-filename').val() + '.' + $('#download-format').val());
+        }
+
+        $('#download').on('click', download);
+      });
+    </script>
+  </body>
+</html>

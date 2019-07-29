@@ -1,0 +1,26 @@
+html, body{
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow:hidden;
+}
+
+body {
+  font-size: .875rem;
+  color: #4a4a4a;
+  background-color: #f9f9f9;
+}
+
+#left-file-config, #right-file-config, #output-controls {
+  display: none;
+}
+
+.accordion>.card .card-header {
+  margin-bottom: 0px;
+}
+
+.accordion>.card:first-of-type {
+  border-bottom: 1px solid rgba(0,0,0,.125);;
+  border-bottom-right-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
