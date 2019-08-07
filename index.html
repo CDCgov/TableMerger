@@ -6,8 +6,9 @@
     <meta name="description" content="">
     <meta name="author" content="Tony Boyles <nsp3@cdc.gov>">
     <title>TableMerger</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/4.3.0/css/bootstrap/tabulator_bootstrap4.min.css">
+    <link rel="stylesheet" href="custom.css">
   </head>
 
   <body>
@@ -45,6 +46,11 @@
                       <label for="left-id-col">ID Column</label>
                       <select id="left-id-col" class="form-control"></select>
                     </div>
+                    Keep all rows
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="match-left">
+                      <label class="custom-control-label" for="match-left">...with a match in the Right Table</label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -67,6 +73,11 @@
                       <label for="right-id-col">ID Column</label>
                       <select id="right-id-col" class="form-control"></select>
                     </div>
+                    Keep all rows
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" id="match-right">
+                      <label class="custom-control-label" for="match-right">...with a match in the Left Table</label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -76,49 +87,70 @@
       
         <div id="output-controls" class="row">
           <div class="col-12 text-center">
-            <img src="combineArrow.png">
+            <img src="img/combineArrow.png">
           </div>
-          <div class="col-6 offset-3 card">
+          <div class="col-12 card">
             <div class="card-body">
-              <div class="row">
-                <div class="col-8 pr-0">
-                  <input id="download-filename" class="form-control">
-                </div>
-                <div class="col-4 pl-0">
-                  <select id="download-format" class="form-control">
-                    <option>csv</option>
-                    <option>xlsx</option>
-                  </select>
-                </div>
-                <div class="accordion mb-3" id="output-file-config">
-                  <div class="card">
-                    <div class="card-header p-0" id="output-file-config-heading">
-                      <h5 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#output-file-config-panel" aria-expanded="true" aria-controls="output-file-config-panel">Advanced</button>
-                      </h5>
-                    </div>
-                    <div id="output-file-config-panel" class="collapse" aria-labelledby="output-file-config-heading" data-parent="#output-file-config">
-                      <div class="card-body">
-                        <div class="form-group">
-                          <select id="output-delimiter" class="form-control">
-                            <option value=",">Comma</option>
-                            <option value=" ">Tab</option>
-                            <option value=";">Semicolon</option>
-                            <option value="|">Pipe</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <button type="button" id="download" class="btn btn-primary w-100" disabled>Download</button>
-                </div>
-              </div>
+              <div id="preview-table"></div>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#output-modal">
+                Save Output
+              </button>
             </div>
           </div>
         </div>
       </main>
+    </div>
+
+    <div class="modal fade" id="output-modal" tabindex="-1" role="dialog" aria-labelledby="output-modal-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="output-modal-label">Save Output</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col-8">
+                <input id="download-filename" class="form-control">
+              </div>
+              <div class="col-4 pl-0">
+                <select id="download-format" class="form-control">
+                  <option>csv</option>
+                  <option>xlsx</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col accordion mb-2" id="output-file-config">
+                <div class="card">
+                  <div class="card-header p-0" id="output-file-config-heading">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#output-file-config-panel" aria-expanded="true" aria-controls="output-file-config-panel">Advanced</button>
+                    </h5>
+                  </div>
+                  <div id="output-file-config-panel" class="collapse" aria-labelledby="output-file-config-heading" data-parent="#output-file-config">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <select id="output-delimiter" class="form-control">
+                          <option value=",">Comma</option>
+                          <option value=" ">Tab</option>
+                          <option value=";">Semicolon</option>
+                          <option value="|">Pipe</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="download" class="btn btn-primary w-100" disabled>Download</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="about-modal-label" aria-hidden="true">
@@ -131,7 +163,20 @@
             </button>
           </div>
           <div class="modal-body">
-            TableMerger is a simple tool to merge multiple tables into a single table. It works fluently with CSVs and Excel sheets, and any combination thereof.
+            <p>
+              TableMerger is a simple tool to merge multiple tables into a single table. It works fluently with CSVs and Excel sheets, and any combination thereof.
+            </p>
+            <p>
+              MicrobeTrace was built by the Molecular Epidemiology and Bionformatics Team at the CDC in Atlanta.
+              <a href="https://cdcgov.github.io/MEBT" target="_blank" rel="noreferrer noopener" class="ifOnline">
+                Click Here to See MEBT's Other Tools
+              </a>
+            </p>
+            <p class="text-right">
+              <a href="humans.txt">
+                <img src="img/humanstxt-isolated-blank.gif" title="Click to see our humans.txt file" alt="humans.txt">
+              </a>
+            </p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Got it!</button>
@@ -142,15 +187,17 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.4/xlsx.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.3/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/4.3.0/js/tabulator.min.js"></script>
     <script src="https://unpkg.com/file-saver@2.0.2/dist/FileSaver.min.js"></script>
     <script>
       $(function(){
         $('#left-file').on('change', function(e){
-          var leftfile = this.files[0];
+          let leftfile = this.files[0];
           $('label[for="left-file"]').text(leftfile.name);
           $('#left-file-config').slideDown();
-          var fileType = leftfile.name.split('.').pop().toLowerCase();
+          let fileType = leftfile.name.split('.').pop().toLowerCase();
           if(fileType === 'csv'){
             Papa.parse(leftfile, {
               header: true,
@@ -160,16 +207,28 @@
               }
             });
           } else { //i.e., is an XLSX File
-            
+            let reader = new FileReader();
+            reader.onload = function(e) {
+              let workbook = XLSX.read(e.target.result, {type: 'array'});
+              let data = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+              let headers = [];
+              data.forEach(function (row) {
+                Object.keys(row).forEach(function (key) {
+                  if (!headers.includes(key)) headers.push(key);
+                })
+              });
+              $('#left-id-col').html(headers.map(f => `<option>${f}</option>`).join('\n')).prop('disabled', false);
+            };
+            reader.readAsArrayBuffer(leftfile);
           }
           revealJoinConfig();
         });
 
         $('#right-file').on('change', function(e){
-          var rightfile = this.files[0];
+          let rightfile = this.files[0];
           $('label[for="right-file"]').text(rightfile.name);
           $('#right-file-config').slideDown();
-          var fileType = rightfile.name.split('.').pop().toLowerCase();
+          let fileType = rightfile.name.split('.').pop().toLowerCase();
           if(fileType === 'csv'){
             Papa.parse(rightfile, {
               header: true,
@@ -194,8 +253,8 @@
 
         function processLeftFile(){
           return new Promise((resolve, reject) => {
-            var leftfile  = $('#left-file' ).get(0).files[0];
-            var leftfileType = leftfile.name.split('.').pop().toLowerCase();
+            let leftfile  = $('#left-file' ).get(0).files[0];
+            let leftfileType = leftfile.name.split('.').pop().toLowerCase();
             if(leftfileType === 'csv'){
               Papa.parse(leftfile, {
                 header: true,
@@ -211,8 +270,8 @@
 
         function processRightFile(){
           return new Promise((resolve, reject) => {
-            var rightfile = $('#right-file').get(0).files[0];
-            var rightfileType = rightfile.name.split('.').pop().toLowerCase();
+            let rightfile = $('#right-file').get(0).files[0];
+            let rightfileType = rightfile.name.split('.').pop().toLowerCase();
             if(rightfileType === 'csv'){
               Papa.parse(rightfile, {
                 header: true,
@@ -226,6 +285,11 @@
           });
         }
         
+        let table = new Tabulator("#preview-table", {
+          height:"311px",
+          autoColumns: true
+        });
+        
         $('#download-filename').on('input', function(){
           if(this.value == ''){
             $('#download').attr('disabled', true);
@@ -235,11 +299,11 @@
         });
 
         async function download(){
-          var leftData = await processLeftFile();
-          var rightData = await processRightFile();
-          var merged = leftData;
-          var leftkey = $('#left-id-col').val();
-          var rightkey = $('#right-id-col').val();
+          let leftData = await processLeftFile();
+          let rightData = await processRightFile();
+          let merged = leftData;
+          let leftkey = $('#left-id-col').val();
+          let rightkey = $('#right-id-col').val();
           rightData.forEach(rightrow => {
             let match = merged.find(leftrow => leftrow[leftkey] == rightrow[rightkey]);
             if(match){
